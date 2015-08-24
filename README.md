@@ -31,6 +31,9 @@ spec/ - Contains the spec to build the GEM.
 
 Makefile - Make file to build the GEM.
 
+## Requirements
+This GEM requires that the "safe-yaml" ruby gem is installed.  We have tested in Fedora and RHEL.
+
 ## YardDoc documentation
 We try to document all our code with YardDoc.  The doc directory contains the generated YarDoc documentation for this GEM.
 
