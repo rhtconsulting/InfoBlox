@@ -156,6 +156,6 @@ Obviously you can put the values in a variable inside a CloudForms State Machine
 
 ## Contact Information
 If you have any questions regarding this code base please send an email to one of the following contributors:
-Lester Claudio - lester@redhat.com
-Jason Ritenour - jritenou@redhat.com
-Jose Simonelli - jose@redhat.com
+* Lester Claudio - lester@redhat.com
+* Jason Ritenour - jritenou@redhat.com
+* Jose Simonelli - jose@redhat.com
