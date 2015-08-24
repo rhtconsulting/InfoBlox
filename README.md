@@ -34,6 +34,11 @@ Makefile - Make file to build the GEM.
 ## Requirements
 This GEM requires that the "safe-yaml" ruby gem is installed.  We have tested in Fedora and RHEL.
 
+    [claudiol@fedora20 nodes (claudiol-puppet-host-mod)]$ gem list
+    safe_yaml (0.9.4)
+
+We have also tested the GEM in Mac OS X (Yosemite) using the YAML GEM.
+
 ## YardDoc documentation
 We try to document all our code with YardDoc.  The doc directory contains the generated YarDoc documentation for this GEM.
 
