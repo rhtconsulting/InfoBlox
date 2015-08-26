@@ -1,0 +1,246 @@
+<!DOCTYPE html>
+<html lang="en-us">
+  <head>
+    <meta charset="UTF-8">
+    <title>Infoblox by rhtconsulting</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" type="text/css" href="stylesheets/normalize.css" media="screen">
+    <link href='https://fonts.googleapis.com/css?family=Open+Sans:400,700' rel='stylesheet' type='text/css'>
+    <link rel="stylesheet" type="text/css" href="stylesheets/stylesheet.css" media="screen">
+    <link rel="stylesheet" type="text/css" href="stylesheets/github-light.css" media="screen">
+  </head>
+  <body>
+    <section class="page-header">
+      <h1 class="project-name">Infoblox</h1>
+      <h2 class="project-tagline"></h2>
+      <a href="https://github.com/rhtconsulting/InfoBlox" class="btn">View on GitHub</a>
+      <a href="https://github.com/rhtconsulting/InfoBlox/zipball/master" class="btn">Download .zip</a>
+      <a href="https://github.com/rhtconsulting/InfoBlox/tarball/master" class="btn">Download .tar.gz</a>
+    </section>
+
+    <section class="main-content">
+      <h1>
+<a id="infoblox" class="anchor" href="#infoblox" aria-hidden="true"><span class="octicon octicon-link"></span></a>InfoBlox</h1>
+
+<p>This is a InfoBlox GEM that can be used by users that want to communicate with the InfoBlox appliance.</p>
+
+<p>This GEM has the following basic functionality:</p>
+
+<ul>
+<li>addHost - Adds a host entry to InfoBlox</li>
+<li>fetchHost - Fetches a host entry from InfoBlox</li>
+<li>deleteHost - Deletes a host entry from InfoBlox</li>
+<li>getAllNetworks - Retrieves all defined networks in InfoBlox</li>
+<li>deleteIPHost - Deletes an IP record from a host entry.</li>
+<li>addIPToHost - Adds an IP record to an existing host entry.</li>
+<li>getIP - Checks if the the IP address exists in a record in InfoBlox.</li>
+<li>fetchNetworkRef - Retries the network reference from InfoBlox for a particular network.</li>
+<li>nextIP - Retrieves the next available IP address from InfoBlox.</li>
+</ul>
+
+<h2>
+<a id="infoblox-ruby-api" class="anchor" href="#infoblox-ruby-api" aria-hidden="true"><span class="octicon octicon-link"></span></a>InfoBlox Ruby API</h2>
+
+<hr>
+
+<p>InfoBlox API to communicate with InfoBlox WAPI.</p>
+
+<p>This GEM is targeted to be installed in a Cloudform Appliance and used within the Automate code.</p>
+
+<p>The directory structure are:</p>
+
+<p>doc/ - Contains YardDoc documentation for the Connection and WAPI classes.</p>
+
+<p>test/ - Contains a test suite for the API.</p>
+
+<p>lib/ - Contains the source code for the Connection and WAPI APIs.</p>
+
+<p>spec/ - Contains the spec to build the GEM.</p>
+
+<p>Makefile - Make file to build the GEM.</p>
+
+<h2>
+<a id="requirements" class="anchor" href="#requirements" aria-hidden="true"><span class="octicon octicon-link"></span></a>Requirements</h2>
+
+<p>This GEM requires that the "safe-yaml" ruby gem is installed.  We have tested in Fedora and RHEL.</p>
+
+<pre><code>[claudiol@fedora20 nodes (claudiol-puppet-host-mod)]$ gem list
+safe_yaml (0.9.4)
+</code></pre>
+
+<p>We have also tested the GEM in Mac OS X (Yosemite) using the YAML GEM.</p>
+
+<h2>
+<a id="yarddoc-documentation" class="anchor" href="#yarddoc-documentation" aria-hidden="true"><span class="octicon octicon-link"></span></a>YardDoc documentation</h2>
+
+<p>We try to document all our code with YardDoc.  The doc directory contains the generated YarDoc documentation for this GEM.</p>
+
+<h2>
+<a id="how-to-build-it" class="anchor" href="#how-to-build-it" aria-hidden="true"><span class="octicon octicon-link"></span></a>How to build it</h2>
+
+<pre><code>[claudiol@fedora20 InfoBlox (claudiol-infoblox *)]$ gem build spec/InfoBlox.gemspec
+Successfully built RubyGem
+Name: InfoBloxConnection
+Version: 0.2
+File: InfoBloxConnection-0.2.gem
+[claudiol@fedora20 InfoBlox (claudiol-infoblox *)]$
+</code></pre>
+
+<p>If you make changes please make sure that you do the following:</p>
+
+<ul>
+<li>Make the changes to the code.</li>
+<li>Test them and add a test in the test/infoblox-test.rb</li>
+<li>Create a pull request</li>
+</ul>
+
+<h2>
+<a id="how-to-use-the-gem" class="anchor" href="#how-to-use-the-gem" aria-hidden="true"><span class="octicon octicon-link"></span></a>How to use the GEM</h2>
+
+<h3>
+<a id="yaml-config-file" class="anchor" href="#yaml-config-file" aria-hidden="true"><span class="octicon octicon-link"></span></a>YAML Config File</h3>
+
+<p>You can use a config file with the InfoBlox GEM.  The config file format is:
+    #
+    # YAML Config file for InfoBlox Service
+    #
+    # Credentials config items
+    credentials:
+      username: "admin"
+      password: "infoblox"
+      servername: "192.168.0.112"
+      wapi_version: "v1.4"</p>
+
+<p>Then in your code you can do the following:</p>
+
+<pre><code>require 'InfoBlox'
+
+options = {}
+options[:config_file] = "infoblox.yaml"
+
+@infoblox = InfoBlox::WAPI.new(options)
+</code></pre>
+
+<h2>
+<a id="passing-parameters" class="anchor" href="#passing-parameters" aria-hidden="true"><span class="octicon octicon-link"></span></a>Passing Parameters</h2>
+
+<p>You can also just pass the Parameters required in the options hash like so:</p>
+
+<pre><code>require 'InfoBlox'
+
+options = {}
+options[:username] = "admin"
+options[:password]: "infoblox"
+options[:servername] = "&lt;IP Address&gt;"
+options[:wapi_version] = "v1.4" # default is v1.2
+@infoblox = InfoBlox::WAPI.new(options)
+</code></pre>
+
+<h3>
+<a id="within-cloudforms" class="anchor" href="#within-cloudforms" aria-hidden="true"><span class="octicon octicon-link"></span></a>Within Cloudforms</h3>
+
+<p>You can use the GEM withing Cloudforms.  All you need to do is include the following statements:</p>
+
+<ol>
+<li>Make sure that the gem is installed on your Cloudforms Worker Appliance</li>
+<li>
+<p>Add the following to the method you want to use the GEM in:</p>
+
+<pre><code>def my_cloudforms_method()
+  require 'InfoBlox'
+
+  options = {}
+  options[:username] = "admin"
+  options[:password]: "infoblox"
+  options[:servername] = "&lt;IP Address&gt;"
+  options[:wapi_version] = "v1.4" # default is v1.2
+  @infoblox = InfoBlox::WAPI.new(options)
+  ...
+end
+</code></pre>
+
+<p>Obviously you can put the values in a variable inside a CloudForms State Machine but the above will work.</p>
+</li>
+</ol>
+
+<h3>
+<a id="outside-of-cloudforms" class="anchor" href="#outside-of-cloudforms" aria-hidden="true"><span class="octicon octicon-link"></span></a>Outside of Cloudforms</h3>
+
+<ol>
+<li>
+<p>Make sure that the gem in installed.</p>
+
+<p>gem install --local InfoBloxConnection-0.2.gem</p>
+</li>
+<li>
+<p>The following is an example on how to use the API:</p>
+
+<pre><code>require 'InfoBlox'
+
+@network_ref = nil
+@debug = false
+
+def add_host_test(infoblox)
+  begin
+    options = {}
+    puts "------- Add Host Test -------" if @debug
+    options[:name] = "my-host"
+    options[:ipv4addr] = "192.168.0.2"
+    options[:view] = ' '
+    uooie = infoblox.addHost(options)
+    puts "Returned Value: " + uooie.inspect if @debug
+    puts "------- Add Host Test -------" if @debug
+    puts "" if @debug
+    return true
+  rescue =&gt; ex
+    puts "------- FAILED: Add Host Test -------" if @debug
+    puts ex.message
+    return false
+  end
+end
+
+# Tests start here
+begin
+  @add_host_test = false
+  options = {}
+
+  options[:config_file] = "infoblox.yaml"
+  @infoblox = InfoBlox::WAPI.new(options)
+
+  @add_host_test = add_host_test(@infoblox)
+
+  puts "add_host_test: #{@add_host_test}"
+
+rescue =&gt; ex
+  puts ex.message
+  puts ex.backtrace
+end
+</code></pre>
+</li>
+</ol>
+
+<h2>
+<a id="contact-information" class="anchor" href="#contact-information" aria-hidden="true"><span class="octicon octicon-link"></span></a>Contact Information</h2>
+
+<p>If you have any questions regarding this code base please send an email to one of the following contributors:</p>
+
+<ul>
+<li>Lester Claudio - <a href="mailto:lester@redhat.com">lester@redhat.com</a>
+</li>
+<li>Jason Ritenour - <a href="mailto:jritenou@redhat.com">jritenou@redhat.com</a>
+</li>
+<li>Jose Simonelli - <a href="mailto:jose@redhat.com">jose@redhat.com</a>
+</li>
+</ul>
+
+      <footer class="site-footer">
+        <span class="site-footer-owner"><a href="https://github.com/rhtconsulting/InfoBlox">Infoblox</a> is maintained by <a href="https://github.com/rhtconsulting">rhtconsulting</a>.</span>
+
+        <span class="site-footer-credits">This page was generated by <a href="https://pages.github.com">GitHub Pages</a> using the <a href="https://github.com/jasonlong/cayman-theme">Cayman theme</a> by <a href="https://twitter.com/jasonlong">Jason Long</a>.</span>
+      </footer>
+
+    </section>
+
+  
+  </body>
+</html>
